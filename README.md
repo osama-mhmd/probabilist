@@ -1,204 +1,98 @@
-Welcome to your new TanStack Start app! 
+# Probabilist
 
-# Getting Started
+## Introduction
 
-To run this application:
+This project is made in collaboration with the awesome developers:
 
-```bash
-npm install
-npm run dev
-```
+- Mohammed El Fawwal
+- Mahmoud Shabbour
+- Mostafa El Sayed
+- Abu Saif
 
-# Building For Production
+Hey yo, See the [details](#details) section below.
 
-To build this application for production:
+Our goal is make a reliable tool that will help mathematicians work with probability.
 
-```bash
-npm run build
-```
+## Prerequisites
 
-## Testing
+You should only have [nodejs](https://nodejs.org/en) installed.
 
-This project uses [Vitest](https://vitest.dev/) for testing. You can run the tests with:
+## Getting started
 
 ```bash
-npm run test
+# Clone the repo
+git clone https://github.com/osama-mhmd/probabilist
+
+# Install the debs.
+pnpm install --prefer-offline
+
+# Run the dev server
+pnpm run dev
+
+# Checkout for a PR
+git checkout -b feature/[...feature...]
+
+# Commit changes
+git commit -m "feat/fix: ..."
+
+# Push changes
+git push --set-upstream origin $(git_current_branch) # Instead of writing your branch name
+# OR
+git push --set-upstream origin feature/[...feature...]
+
+# Finally create a PR (Pull request) from GitHub
 ```
 
-## Styling
+## Details
 
-This project uses [Tailwind CSS](https://tailwindcss.com/) for styling.
+### How to work on transformation/computation
 
-### Removing Tailwind CSS
+All you have to do is to write your code in the `src/lib/math/index.ts` file, and also in the `src/lib/data/index.ts` file.
 
-If you prefer not to use Tailwind CSS:
+I mocked the functions in the `src/lib/math/index.ts` file, and the `src/lib/data/index.ts` file.
 
-1. Remove the demo pages in `src/routes/demo/`
-2. Replace the Tailwind import in `src/styles.css` with your own styles
-3. Remove `tailwindcss()` from the plugins array in `vite.config.ts`
-4. Uninstall the packages: `npm install @tailwindcss/vite tailwindcss -D`
+You can use the `transformCSV` function to transform the CSV data into the `StatisticalDistribution` object.
 
-## Linting & Formatting
+You can use the `transformExcel` function to transform the Excel data into the `StatisticalDistribution` object.
 
+You can use the `getbionomialDistribution` function to calculate the probability of getting a `k` heads in `n` coin tosses.
 
-This project uses [eslint](https://eslint.org/) and [prettier](https://prettier.io/) for linting and formatting. Eslint is configured using [tanstack/eslint-config](https://tanstack.com/config/latest/docs/eslint). The following scripts are available:
+You can use the `getVariance` function to calculate the variance of the probability of getting a `k` heads in `n` coin tosses.
 
-```bash
-npm run lint
-npm run format
-npm run check
-```
+The transformed `data` should look like the following:
 
+```ts
+{
+  sector: 'engineering' | 'medicine'
 
-
-## Routing
-
-This project uses [TanStack Router](https://tanstack.com/router) with file-based routing. Routes are managed as files in `src/routes`.
-
-### Adding A Route
-
-To add a new route to your application just add a new file in the `./src/routes` directory.
-
-TanStack will automatically generate the content of the route file for you.
-
-Now that you have two routes you can use a `Link` component to navigate between them.
-
-### Adding Links
-
-To use SPA (Single Page Application) navigation you will need to import the `Link` component from `@tanstack/react-router`.
-
-```tsx
-import { Link } from "@tanstack/react-router";
-```
-
-Then anywhere in your JSX you can use it like so:
-
-```tsx
-<Link to="/about">About</Link>
-```
-
-This will create a link that will navigate to the `/about` route.
-
-More information on the `Link` component can be found in the [Link documentation](https://tanstack.com/router/v1/docs/framework/react/api/router/linkComponent).
-
-### Using A Layout
-
-In the File Based Routing setup the layout is located in `src/routes/__root.tsx`. Anything you add to the root route will appear in all the routes. The route content will appear in the JSX where you render `{children}` in the `shellComponent`.
-
-Here is an example layout that includes a header:
-
-```tsx
-import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
-
-export const Route = createRootRoute({
-  head: () => ({
-    meta: [
-      { charSet: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'My App' },
-    ],
-  }),
-  shellComponent: ({ children }) => (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        <header>
-          <nav>
-            <Link to="/">Home</Link>
-            <Link to="/about">About</Link>
-          </nav>
-        </header>
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  ),
-})
-```
-
-More information on layouts can be found in the [Layouts documentation](https://tanstack.com/router/latest/docs/framework/react/guide/routing-concepts#layouts).
-
-## Server Functions
-
-TanStack Start provides server functions that allow you to write server-side code that seamlessly integrates with your client components.
-
-```tsx
-import { createServerFn } from '@tanstack/react-start'
-
-const getServerTime = createServerFn({
-  method: 'GET',
-}).handler(async () => {
-  return new Date().toISOString()
-})
-
-// Use in a component
-function MyComponent() {
-  const [time, setTime] = useState('')
-  
-  useEffect(() => {
-    getServerTime().then(setTime)
-  }, [])
-  
-  return <div>Server time: {time}</div>
+  n: number
+  p: number | number[]
+  k: number
 }
 ```
 
-## API Routes
+For example, if the user wants to calculate the probability of getting a `k` heads in `n` coin tosses, the `p` value will be `1` and the `n` value will be `k`.
 
-You can create API routes by using the `server` property in your route definitions:
+If the user wants to calculate the probability of getting a `k` heads in `n` coin tosses, the `p` value will be `1` and the `n` value will be `k`.
 
-```tsx
-import { createFileRoute } from '@tanstack/react-router'
-import { json } from '@tanstack/react-start'
+### How to work on the homepage
 
-export const Route = createFileRoute('/api/hello')({
-  server: {
-    handlers: {
-      GET: () => json({ message: 'Hello, World!' }),
-    },
-  },
-})
+All you have to do is to write your code in the `src/routes/index.tsx` file.
+
+### How to work on the preview page
+
+All you have to do is to write your code in the `src/routes/preview/index.tsx` file.
+
+The preview page primary goal is to show the user three options (manual input, CSV, Excel) to transform the data into the `StatisticalDistribution` object.
+
+So, you will get the data from the user, call the `transformCSV` function for CSV, and call the `transformExcel` function for Excel.
+
+After that, set the store with the transformed data, as the following:
+
+```ts
+import { setTransformedTasks } from '@/stores/data.store'
+
+setTransformedTasks(tasks)
 ```
 
-## Data Fetching
-
-There are multiple ways to fetch data in your application. You can use TanStack Query to fetch data from a server. But you can also use the `loader` functionality built into TanStack Router to load the data for a route before it's rendered.
-
-For example:
-
-```tsx
-import { createFileRoute } from '@tanstack/react-router'
-
-export const Route = createFileRoute('/people')({
-  loader: async () => {
-    const response = await fetch('https://swapi.dev/api/people')
-    return response.json()
-  },
-  component: PeopleComponent,
-})
-
-function PeopleComponent() {
-  const data = Route.useLoaderData()
-  return (
-    <ul>
-      {data.results.map((person) => (
-        <li key={person.name}>{person.name}</li>
-      ))}
-    </ul>
-  )
-}
-```
-
-Loaders simplify your data fetching logic dramatically. Check out more information in the [Loader documentation](https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#loader-parameters).
-
-# Demo files
-
-Files prefixed with `demo` can be safely deleted. They are there to provide a starting point for you to play around with the features you've installed.
-
-# Learn More
-
-You can learn more about all of the offerings from TanStack in the [TanStack documentation](https://tanstack.com).
-
-For TanStack Start specific documentation, visit [TanStack Start](https://tanstack.com/start).
+And then redirect the user to the dashboard page.
