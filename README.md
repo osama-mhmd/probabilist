@@ -9,7 +9,7 @@ This project is made in collaboration with the awesome developers:
 - Mostafa El Sayed
 - Abu Saif
 
-Hey yo, See the [details](#details) section below.
+Hey yo, See the [details](#details), [guidelines](#guidelines) sections below.
 
 Our goal is make a reliable tool that will help mathematicians work with probability.
 
@@ -20,6 +20,9 @@ You should only have [nodejs](https://nodejs.org/en) installed.
 ## Getting started
 
 ```bash
+# Copy the .env.example file to .env
+cp .env.example .env # Linux command
+
 # Clone the repo
 git clone https://github.com/osama-mhmd/probabilist
 
@@ -42,6 +45,17 @@ git push --set-upstream origin feature/[...feature...]
 
 # Finally create a PR (Pull request) from GitHub
 ```
+
+## Guidelines
+
+### Nomenclature
+
+**Branches**:
+
+- Dashboard: `feature/dashboard`
+- Preview: `feature/preview`
+- Homepage: `feature/homepage`
+- Computations/transformations: `feature/logic`
 
 ## Details
 
