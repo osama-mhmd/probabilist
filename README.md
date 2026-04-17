@@ -48,6 +48,10 @@ git push --set-upstream origin feature/[...feature...]
 
 ## Guidelines
 
+### Using AI
+
+Any AI model used, should strictly follow the guidelines at AGENTS.md. If you're using a AI model, make sure to give him the MD File for better results.
+
 ### Nomenclature
 
 **Branches**:
