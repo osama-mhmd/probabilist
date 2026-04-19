@@ -5,3 +5,9 @@ export interface StatisticalDistribution {
   p: number | number[]
   k: number
 }
+
+export interface Entity extends StatisticalDistribution {
+  id: string
+  name: string
+  variance: number
+}
