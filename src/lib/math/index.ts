@@ -1,13 +1,15 @@
 import type { StatisticalDistribution } from '@/types'
 
-const getProbability = (p: number | number[] | undefined): number => {
+const getProbability = (p: number | number[] = 0): number => {
   if (Array.isArray(p)) {
-    return Number(p[0]) || 0
+    return Number(p[0])
   }
-  return Number(p) || 0
+  return Number(p)
 }
 
 const factorial = (n: number): number => {
+  if (n > 170) console.warn('Very large factorial number, may cause overflow')
+
   if (n <= 1) return 1
   let result = 1
   for (let i = 2; i <= n; i++) {
@@ -17,11 +19,10 @@ const factorial = (n: number): number => {
 }
 
 const combination = (n: number, k: number): number => {
-  return factorial(n) / (factorial(n) * factorial(n - k))
+  return factorial(n) / (factorial(k) * factorial(n - k))
 }
 
-
-function getBionomialDistribution(data: StatisticalDistribution): number {
+function getBinomialDistribution(data: StatisticalDistribution): number {
   const { n, p, k } = data
   const probability = getProbability(p)
   const prop =
@@ -51,7 +52,7 @@ function getRequiredN(p: number | number[], target: number): number {
   return Math.ceil(n)
 }
 
-function getExcepectedValue(n: number, p: number | number[]): number {
+function getExpectedValue(n: number, p: number | number[]): number {
   const probability = getProbability(p)
   return Number((probability * n).toFixed(4))
 }
@@ -63,14 +64,14 @@ function getVariance(n: number, p: number | number[]): number {
 
 function getStandardDeviation(n: number, p: number | number[]): number {
   const probability = getProbability(p)
-  return Number(Math.sqrt((probability * n * (1 - probability))).toFixed(4))
+  return Number(Math.sqrt(probability * n * (1 - probability)).toFixed(4))
 }
 
 export {
-  getBionomialDistribution,
+  getBinomialDistribution,
   getCumulativeDistribution,
   getRequiredN,
-  getExcepectedValue,
+  getExpectedValue,
   getVariance,
-  getStandardDeviation
+  getStandardDeviation,
 }
