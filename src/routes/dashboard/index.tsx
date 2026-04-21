@@ -13,6 +13,8 @@ export const data = [...ENGINEERING_TEST_DATA, ...MEDICINE_TEST_DATA]
 function RouteComponent() {
   const [currentEntity, setCurrentEntity] = useState<string | null>(null)
 
+  // TODO SHABBOUR (MAKE A USEEFFECT, and USE THE LOCALSTORAGE HERE)
+
   return (
     <main className="flex">
       <Sidebar
