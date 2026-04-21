@@ -59,6 +59,15 @@ function RouteComponent() {
           ? await transformCSV(base64)
           : await transformExcel(base64)
         setTransformedTasks(tasks)
+
+        const storageKey = 'dashboard_statistics'
+        const existingDataString = localStorage.getItem(storageKey)
+        let existingArray = existingDataString ? JSON.parse(existingDataString) : []
+        const newTasksArray = Array.isArray(tasks) ? tasks : [tasks]
+        existingArray = existingArray.concat(newTasksArray)
+
+        localStorage.setItem(storageKey, JSON.stringify(existingArray))
+
         navigate({ to: '/dashboard' })
       } catch (e) {
         setError('Transformation failed. Verify file schema.')
@@ -92,7 +101,14 @@ function RouteComponent() {
 
     const task = { sector, n, p, k }
     setTransformedTasks(task)
-    // TODO SHABBOUR (SET LOCALSTORAGE HERE)
+
+    const storageKey = 'dashboard_statistics'
+    const existingDataString = localStorage.getItem(storageKey)
+    const existingArray = existingDataString ? JSON.parse(existingDataString) : []
+
+    existingArray.push(task)
+    localStorage.setItem(storageKey, JSON.stringify(existingArray))
+
     navigate({ to: '/dashboard' })
   }, [manualForm, sector, navigate])
 
