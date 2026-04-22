@@ -1,19 +1,29 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { MainContents, Sidebar } from './-components'
-import { ENGINEERING_TEST_DATA, MEDICINE_TEST_DATA } from '@/lib/constants'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Transition } from '@/components/Transition'
 
 export const Route = createFileRoute('/dashboard/')({
   component: RouteComponent,
 })
 
-export const data = [...ENGINEERING_TEST_DATA, ...MEDICINE_TEST_DATA]
-
 function RouteComponent() {
   const [currentEntity, setCurrentEntity] = useState<string | null>(null)
 
-  // TODO SHABBOUR (MAKE A USEEFFECT, and USE THE LOCALSTORAGE HERE)
+  const [data, setData] = useState<any[]>([])
+
+  useEffect(() => {
+    const storageKey = 'dashboard_statistics'
+    const savedDataString = localStorage.getItem(storageKey)
+    if (savedDataString) {
+      const parsedData = JSON.parse(savedDataString)
+      setData(
+        parsedData.filter(
+          ({ p }: { p: number | number[] }) => typeof p !== 'number',
+        ),
+      )
+    }
+  }, [])
 
   return (
     <main className="flex">
@@ -23,7 +33,7 @@ function RouteComponent() {
         changeEntity={setCurrentEntity}
       />
       <Transition key={currentEntity}>
-        <MainContents entity={currentEntity} />
+        <MainContents data={data} entity={currentEntity} />
       </Transition>
     </main>
   )
