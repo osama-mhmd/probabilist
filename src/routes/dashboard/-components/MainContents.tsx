@@ -6,7 +6,6 @@ import { DistributionBarChart } from './DistributionBarChart'
 import { CDFAreaChart } from './CDFAreaChart'
 import { RedundancyHeatmap } from './RedundancyHeatmap'
 import { TargetFinderCard } from './TargetFinderCard'
-import { data } from '..'
 
 interface StatCardProps {
   title: string
@@ -26,7 +25,13 @@ const StatCard = ({ title, description, children }: StatCardProps) => (
   </Card>
 )
 
-export function MainContents({ entity: entityId }: { entity: string | null }) {
+export function MainContents({
+  entity: entityId,
+  data,
+}: {
+  entity: string | null
+  data: any[]
+}) {
   const entity = data.find((e) => e.id === entityId)
 
   if (!entity) {
@@ -39,6 +44,8 @@ export function MainContents({ entity: entityId }: { entity: string | null }) {
       </div>
     )
   }
+
+  console.log(entity.p)
 
   const chartData = { n: entity.n, p: entity.p as number[] }
 
